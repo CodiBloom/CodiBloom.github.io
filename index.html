@@ -5,6 +5,7 @@
 
         <script>
             const uuid = crypto.randomUUID();
+            const pubKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0RYy+YqdUE2rR0gWhT3B8+JjAhGvwSFepUOiFH6QZZXmlCsqu63BztnWSPF3Cjz68K4WAiY5P18AVkGa2JWqVv6v/XaugJHwCRE3TBoG7ddFkecTYEVjWalBRCtvP19deGjBzSHXbt1iy2Y79KP4y43UQXgjQyNCejahpQm/7rwIDAQAB";
             console.log("UUID >>> " + uuid);
             //document.cookie = `userId=${uuidCookie}; Secure`
         </script>
@@ -24,7 +25,7 @@
           }
        </script>
        <script>
-          function lpGetAuthenticationToken(callback) {
+          /*function lpGetAuthenticationToken(callback) {
               try {
                 console.log("LP asked for id_token or auth code in Code Flow");
 
@@ -61,7 +62,32 @@
                 console.log(err);
                 callback("", err);
               }
-          }
+          }*/
+
+          const nameCookie = document.cookie.split("; ").find((row) => row.startsWith("name="))?.split("=")[1];
+          const issuedAt = Date.now() / 1000;
+          const expTime = Date.now() + 600000;
+
+          window.crypto.subtle.encrypt(
+            {
+                name: "RSA-OAEP"
+            },
+            pubKey,
+            {
+                "sub": `${uuid}`,
+                "name": `${nameCookie}`,
+                "iss": "https://www.royalcaribbean.com",
+                "iat": `${issuedAt}`,
+                "exp": `${expTime}`
+            }
+          )
+          .then(function(encrypted){
+            console.log(new Uint8Array(encrypted));
+          })
+          .catch(function(err){
+            console.error(err);
+          })
+
        </script>
 
        <script>
