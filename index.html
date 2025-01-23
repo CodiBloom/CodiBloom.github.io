@@ -68,6 +68,29 @@
           const issuedAt = Date.now() / 1000;
           const expTime = Date.now() + 600000;
 
+          window.crypto.subtle.importKey(
+            "jwk",
+            {
+                kty: "RSA",
+                e: "AQAB",
+                n: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0RYy+YqdUE2rR0gWhT3B8+JjAhGvwSFepUOiFH6QZZXmlCsqu63BztnWSPF3Cjz68K4WAiY5P18AVkGa2JWqVv6v/XaugJHwCRE3TBoG7ddFkecTYEVjWalBRCtvP19deGjBzSHXbt1iy2Y79KP4y43UQXgjQyNCejahpQm/7rwIDAQAB",
+                alg: "RSA-OAEP-256",
+                ext: false,
+            },
+            {
+                name: "RSA-OAEP",
+                hash: {name: "SHA-256"},
+            },
+            false,
+            ["encrypt"]
+          )
+          .then(function(publicKey){
+            console.log(publicKey);
+          })
+          .catch(function(err){
+            console.error(err);
+          })
+
           window.crypto.subtle.encrypt(
             {
                 name: "RSA-OAEP"
