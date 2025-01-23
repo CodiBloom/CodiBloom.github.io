@@ -14,6 +14,7 @@
     
             lpTag.identities.push(identityFn);
             function identityFn(callback) {
+                console.log("identityFn execution");
                 callback({
                     iss: "https://www.royalcaribbean.com",
                     acr: "loa1",
