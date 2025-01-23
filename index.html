@@ -33,7 +33,7 @@
                     "typ": "JWT"
                 };
 
-                console.log("CONSTRUCTED HEADER >>> " + header);
+                console.log("CONSTRUCTED HEADER >>> " + JSON.stringify(header));
 
                 const nameCookie = document.cookie.split("; ").find((row) => row.startsWith("name="))?.split("=")[1];
 
@@ -45,7 +45,7 @@
                     "exp": Date.now() + 600000
                 }
 
-                console.log("CONSTRUCTED PAYLOAD >>> " + payload);
+                console.log("CONSTRUCTED PAYLOAD >>> " + JSON.stringify(payload));
 
                 const unsignedJWT = RSASHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload));
 
