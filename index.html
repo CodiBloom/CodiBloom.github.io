@@ -20,11 +20,14 @@
        </script>
        <script>
           function lpGetAuthenticationToken(callback) {
-              console.log("LP asked for id_token or auth code in Code Flow");
-              var id_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJuYW1lIjoiQ29kaSBCbG9vbSIsImlzcyI6Imh0dHBzOi8vd3d3LnJveWFsY2FyaWJiZWFuLmNvbSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzM3ODIxNDQ0fQ.SDMCtwN-4NcLU008qyKvfC-8-zCU4dGRl1br2vN24GdSLmp86FBAWcc_m8wkudwuFXh8gk8GVmEhM9LfRF-KYN86XGZKrQx8GSHU7aWxAZSr1Pz1vyxAI1cPRdpoWqOFYiEz_I6UAYAXeiLlfY-YFg7Ow_aBZidKsykMeXG271mSNxLkj4SvzMl5xALr-7OpNAXJ3LGAlfSeYbWv_b1UhdyRj-79AR3JjKQD0tO6KeHF1XIxyCwF8KCWMmnHLQ5GfOIQVOvede1G_eh5hAwkkHHRnNzW_H7uM47hIvOLvvDX7XWZ7vV7HZTOZkVk0OM3Q51H6rWRkwtVcTp2_fLxxw"
-              callback(id_token);
-              // On Failure
-              //callback("", "error reason");
+              try {
+                console.log("LP asked for id_token or auth code in Code Flow");
+                var id_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJuYW1lIjoiQ29kaSBCbG9vbSIsImlzcyI6Imh0dHBzOi8vd3d3LnJveWFsY2FyaWJiZWFuLmNvbSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzM3ODIxNDQ0fQ.SDMCtwN-4NcLU008qyKvfC-8-zCU4dGRl1br2vN24GdSLmp86FBAWcc_m8wkudwuFXh8gk8GVmEhM9LfRF-KYN86XGZKrQx8GSHU7aWxAZSr1Pz1vyxAI1cPRdpoWqOFYiEz_I6UAYAXeiLlfY-YFg7Ow_aBZidKsykMeXG271mSNxLkj4SvzMl5xALr-7OpNAXJ3LGAlfSeYbWv_b1UhdyRj-79AR3JjKQD0tO6KeHF1XIxyCwF8KCWMmnHLQ5GfOIQVOvede1G_eh5hAwkkHHRnNzW_H7uM47hIvOLvvDX7XWZ7vV7HZTOZkVk0OM3Q51H6rWRkwtVcTp2_fLxxw"
+                callback(id_token);
+              } catch (err) {
+                console.log(err);
+                callback("", err);
+              }
           }
        </script>
         
