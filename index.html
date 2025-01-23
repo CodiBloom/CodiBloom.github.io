@@ -35,9 +35,11 @@
 
                 console.log("CONSTRUCTED HEADER >>> " + header);
 
+                const nameCookie = document.cookie.split("; ").find((row) => row.startsWith("name="))?.split("=")[1];
+
                 const payload = {
                     "sub": `${uuid}`,
-                    "name": `${userName}`,
+                    "name": `${nameCookie}`,
                     "iss": "https://www.royalcaribbean.com",
                     "iat": Date.now() / 1000,
                     "exp": Date.now() + 600000
@@ -66,7 +68,7 @@
         function setNameCookie() {
             const userName = document.getElementById("name").value;
             console.log("USERNAME >>> " + userName);
-            //document.cookie = `name=${userName}; Secure`
+            document.cookie = `name=${userName}; Secure`
             return;
         }
        </script>
