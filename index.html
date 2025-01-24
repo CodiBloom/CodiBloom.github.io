@@ -30,6 +30,8 @@
                 var cookies = document.cookie.split(";");
                 var jwt;
 
+                console.log("COOKIES >>> " + cookies);
+
                 for (var cookie of cookies) {
                   var name = cookie.split("=")[0];
                   var value = cookie.split("=")[1];
