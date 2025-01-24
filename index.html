@@ -35,6 +35,8 @@
                 for (var cookie of cookies) {
                   var name = cookie.split("=")[0];
                   console.log("ITERATING NAME >>> " + name);
+                  console.log("NAME LENGTH >>> " + name.length);
+                  console.log("NAME TYPEOF >>> " + typeof name);
                   var value = cookie.split("=")[1];
                   console.log("ITERATING VALUE >>> " + value);
                   if (name == "jwt") {
