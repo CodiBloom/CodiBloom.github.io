@@ -24,93 +24,18 @@
           }
        </script>
        <script>
-          /*function lpGetAuthenticationToken(callback) {
+          function lpGetAuthenticationToken(callback) {
               try {
                 console.log("LP asked for id_token or auth code in Code Flow");
 
-                const header = {
-                    "alg": "RS256",
-                    "typ": "JWT"
-                };
-
-                console.log("CONSTRUCTED HEADER >>> " + JSON.stringify(header));
-
-                const nameCookie = document.cookie.split("; ").find((row) => row.startsWith("name="))?.split("=")[1];
-
-                const payload = {
-                    "sub": `${uuid}`,
-                    "name": `${nameCookie}`,
-                    "iss": "https://www.royalcaribbean.com",
-                    "iat": Date.now() / 1000,
-                    "exp": Date.now() + 600000
-                }
-
-                console.log("CONSTRUCTED PAYLOAD >>> " + JSON.stringify(payload));
-
-                const unsignedJWT = RSASHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload));
-
-                console.log("UNSIGNEDJWT >>> " + unsignedJWT);
-
-                const signedJWT = unsignedJWT + "." + "wUXnexwwMHmC3G4Dd6ojBeYIOsdMh_NzkCcjXjFRGnXrbH_Bf2ArKRYkFwtH1HxutVECEI1fWy-BvCDNvAMLj5K_zZ-Q2p74H5-yM5HnVPMpAKhESS1ibmumt5b2QvMA9kXBh5hO0yrIfwah_Qpo6sACvEqoW_KveItTO_FmSmqD2SV_BlQBtdDRTe9Cm5IaLcjqJ80Qa7dGceVzKa_4HQ84fVTa6I-Q71QneLX49oHu2uFwb2xvRgPnMhUalGea5dlF0mDUf308xT3le1i_th4GEwBZj9-D1c9tN7_zQt2ZyeI0r0jTV8ZO7EFUDv1K7OsGttQpAd-U0rtz62v_0Q"
-
-                console.log("SIGNEDJWT >>> " + signedJWT);
-
-                //var id_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJuYW1lIjoiQ29kaSBCbG9vbSIsImlzcyI6Imh0dHBzOi8vd3d3LnJveWFsY2FyaWJiZWFuLmNvbSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzM3ODIxNDQ0fQ.wUXnexwwMHmC3G4Dd6ojBeYIOsdMh_NzkCcjXjFRGnXrbH_Bf2ArKRYkFwtH1HxutVECEI1fWy-BvCDNvAMLj5K_zZ-Q2p74H5-yM5HnVPMpAKhESS1ibmumt5b2QvMA9kXBh5hO0yrIfwah_Qpo6sACvEqoW_KveItTO_FmSmqD2SV_BlQBtdDRTe9Cm5IaLcjqJ80Qa7dGceVzKa_4HQ84fVTa6I-Q71QneLX49oHu2uFwb2xvRgPnMhUalGea5dlF0mDUf308xT3le1i_th4GEwBZj9-D1c9tN7_zQt2ZyeI0r0jTV8ZO7EFUDv1K7OsGttQpAd-U0rtz62v_0Q"
+                var id_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJuYW1lIjoiQ29kaSBCbG9vbSIsImlzcyI6Imh0dHBzOi8vd3d3LnJveWFsY2FyaWJiZWFuLmNvbSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzM3ODIxNDQ0fQ.wUXnexwwMHmC3G4Dd6ojBeYIOsdMh_NzkCcjXjFRGnXrbH_Bf2ArKRYkFwtH1HxutVECEI1fWy-BvCDNvAMLj5K_zZ-Q2p74H5-yM5HnVPMpAKhESS1ibmumt5b2QvMA9kXBh5hO0yrIfwah_Qpo6sACvEqoW_KveItTO_FmSmqD2SV_BlQBtdDRTe9Cm5IaLcjqJ80Qa7dGceVzKa_4HQ84fVTa6I-Q71QneLX49oHu2uFwb2xvRgPnMhUalGea5dlF0mDUf308xT3le1i_th4GEwBZj9-D1c9tN7_zQt2ZyeI0r0jTV8ZO7EFUDv1K7OsGttQpAd-U0rtz62v_0Q"
+                
                 callback(signedJWT);
               } catch (err) {
                 console.log(err);
                 callback("", err);
               }
-          }*/
-
-          const nameCookie = document.cookie.split("; ").find((row) => row.startsWith("name="))?.split("=")[1];
-          const issuedAt = Date.now() / 1000;
-          const expTime = Date.now() + 600000;
-
-          window.crypto.subtle.importKey(
-            "jwk",
-            {
-                kty: "RSA",
-                e: "AQAB",
-                n: "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC0RYy+YqdUE2rR0gWhT3B8+JjAhGvwSFepUOiFH6QZZXmlCsqu63BztnWSPF3Cjz68K4WAiY5P18AVkGa2JWqVv6v/XaugJHwCRE3TBoG7ddFkecTYEVjWalBRCtvP19deGjBzSHXbt1iy2Y79KP4y43UQXgjQyNCejahpQm/7rwIDAQAB",
-                alg: "RSA-OAEP-256",
-                ext: false,
-            },
-            {
-                name: "RSA-OAEP",
-                hash: {name: "SHA-256"},
-            },
-            false,
-            ["encrypt"]
-          )
-          .then(function(publicKey){
-            console.log(publicKey);
-            window.crypto.subtle.encrypt(
-            {
-                name: "RSA-OAEP"
-            },
-            publicKey,
-            {
-                "sub": `${uuid}`,
-                "name": `${nameCookie}`,
-                "iss": "https://www.royalcaribbean.com",
-                "iat": `${issuedAt}`,
-                "exp": `${expTime}`
-            }
-          )
-          .then(function(encrypted){
-            console.log(new Uint8Array(encrypted));
-          })
-          .catch(function(err){
-            console.error(err);
-          })
-          })
-          .catch(function(err){
-            console.error(err);
-          })
-
-          
-
+          }
        </script>
 
        <script>
