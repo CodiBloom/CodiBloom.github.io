@@ -34,8 +34,11 @@
 
                 for (var cookie of cookies) {
                   var name = cookie.split("=")[0];
+                  console.log("ITERATING NAME >>> " + name);
                   var value = cookie.split("=")[1];
+                  console.log("ITERATING VALUE >>> " + value);
                   if (name == "jwt") {
+                    console.log("NAME == JWT >>> " + name + " " + value);
                     jwt = value;
                   }
                 }
