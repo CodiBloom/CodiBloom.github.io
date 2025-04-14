@@ -18,14 +18,15 @@
               let decodedCookies = decodeURIComponent(document.cookie);
               decodedCookies = decodedCookies.split(";");
               console.log("decodedCookies pre-iter > " + decodedCookies);
-              let sub = null;
+              let vds_id = null;
 
               for (const cookie of decodedCookies) {
                 let name = cookie.split("=")[0];
                 let value = cookie.split("=")[1];
                 console.log("iterating cookie named " + name + " with value " + value);
                 if (name == "VDS_ID") {
-                  sub = value;
+                  console.log("setting VDS_ID cookie with value " + value);
+                  vds_id = value;
                 }
 
                 if (sub) {
@@ -35,7 +36,7 @@
               callback({
                   iss: "https://www.royalcaribbean.com",
                   acr: "loa1",
-                  sub: sub
+                  sub: vds_id
               });
           }
        </script>
