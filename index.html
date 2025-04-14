@@ -16,7 +16,7 @@
           function identityFn(callback) {
               console.log("identityFn execution");
               let decodedCookies = decodeURIComponent(document.cookie);
-              decodedCookies = decodedCookies.split(",");
+              decodedCookies = decodedCookies.split(";");
               console.log("decodedCookies pre-iter > " + decodedCookies);
               let vds_id = null;
 
@@ -49,10 +49,12 @@
                 decodedCookies = decodedCookies.split(";");
 
                 for (const cookie of decodedCookies) {
-                  let name = cookie.split("=")[0];
-                  let value = cookie.split("=")[1];
+                  let cArr = cookie.split("=");
+                  let name = cArr[0];
+                  let value = cArr[1];
                   if (name == "loyaltyData") {
-                    loyaltyData = value;
+                    let loyaltyValue = cArr.shift().join();
+                    loyaltyData = loyaltyValue;
                   } else if (name == "accessToken") {
                     accessToken = value;
                   }
