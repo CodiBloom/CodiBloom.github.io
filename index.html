@@ -15,38 +15,51 @@
           lpTag.identities.push(identityFn);
           function identityFn(callback) {
               console.log("identityFn execution");
+              let decodedCookies = decodeURIComponent(document.cookie);
+              decodedCookies = decodedCookies.split(";");
+              let sub = null;
+
+              for (const cookie of decodedCookies) {
+                let name = cookie.split("=")[0];
+                let value = cookie.split("=")[1];
+                if (name == "VDS_ID") {
+                  sub = value;
+                }
+
+                if (sub) {
+                  break;
+                }
+              }
               callback({
                   iss: "https://www.royalcaribbean.com",
                   acr: "loa1",
-                  sub: `${uuid}`
+                  sub: sub
               });
           }
        </script>
        <script>
-          function lpGetAuthenticationToken(callback) {
+          async function lpGetAuthenticationToken(callback) {
               try {
-                console.log("LP asked for id_token or auth code in Code Flow");
+                let loyaltyData = null;
+                let accessToken = null;
+                let decodedCookies = decodeURIComponent(document.cookie);
+                decodedCookies = decodedCookies.split(";");
 
-                var cookies = document.cookie.split(";");
-                var jwt;
-
-                console.log("COOKIES >>> " + cookies);
-
-                for (var cookie of cookies) {
-                  var name = cookie.split("=")[0];
-                  var value = cookie.split("=")[1];
-                  console.log("ITERATING VALUE >>> " + value);
-                  if (name == " jwt") {
-                    console.log("NAME == JWT >>> " + name + " " + value);
-                    jwt = value;
+                for (const cookie of decodedCookies) {
+                  let name = cookie.split("=")[0];
+                  let value = cookie.split("=")[1];
+                  if (name == "loyaltyData") {
+                    loyaltyData = value;
+                  } else if (name == "accessToken") {
+                    accessToken = value;
                   }
-                }
 
-                console.log("PASSING JWT TO LP >>> " + jwt);
+                  if (loyaltyData && accessToken) {
+                    break;
+                  }
+                };
 
-                /* SAVING JWT
-                "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkiLCJuYW1lIjoiQ29kaSBCbG9vbSIsImlzcyI6Imh0dHBzOi8vd3d3LnJveWFsY2FyaWJiZWFuLmNvbSIsImlhdCI6MTUxNjIzOTAyMiwiZXhwIjoxNzM3ODIxNDQ0fQ.wUXnexwwMHmC3G4Dd6ojBeYIOsdMh_NzkCcjXjFRGnXrbH_Bf2ArKRYkFwtH1HxutVECEI1fWy-BvCDNvAMLj5K_zZ-Q2p74H5-yM5HnVPMpAKhESS1ibmumt5b2QvMA9kXBh5hO0yrIfwah_Qpo6sACvEqoW_KveItTO_FmSmqD2SV_BlQBtdDRTe9Cm5IaLcjqJ80Qa7dGceVzKa_4HQ84fVTa6I-Q71QneLX49oHu2uFwb2xvRgPnMhUalGea5dlF0mDUf308xT3le1i_th4GEwBZj9-D1c9tN7_zQt2ZyeI0r0jTV8ZO7EFUDv1K7OsGttQpAd-U0rtz62v_0Q"
-                */
+                const jwt = await getJwt(loyaltyData, accessToken);
                 
                 callback(jwt);
               } catch (err) {
@@ -55,12 +68,22 @@
               }
           }
        </script>
-
        <script>
-        function setJwtCookie() {
-            const jwt = document.getElementById("jwt").value;
-            console.log("JWT >>> " + jwt);
-            document.cookie = `jwt=${jwt}; Secure`
+        async function getJwt(loyaltyData, accessToken) {
+          const url = "http://localhost:3000/api/token";
+
+          const response = await fetch(url, { method: "POST", headers: { referrer: "https://www.new.royalcaribbean.com" }, body: JSON.stringify({ loyaltyData: loyaltyData, accessToken: accessToken }) });
+          const json = await response.json();
+
+          return json.token;
+        }
+       </script>
+       <script>
+        function setCookies() {
+          const accessToken = document.getElementById("accessToken").value;
+          const loyaltyData = document.getElementById("loyaltyData").value;
+          document.cookie = `accessToken=${accessToken}; Secure`;
+          document.cookie = `loyaltyData=${loyaltyData}; Secure`;
         }
        </script>
         
@@ -71,13 +94,15 @@
         </head>
     <body>
         <h1>JUST A DUMMY DEV SITE</h1>
-        <h3>ENTER ENCODED JWT IN THE FORM BELOW AND THEN CLICK THE BUTTON</h3>
-        <p>This is to set a cookie for use by the auth script.</p>
+        <h3>ENTER accessToken & loyaltyData COOKIES IN THE FORM BELOW AND THEN CLICK THE BUTTON</h3>
+        <p>This is to set cookies used by the auth script.</p>
 
         <form>
-            <label for="name">JWT:</label><br>
-            <input type="text" id="jwt" name="jwt"><br>
-            <input type="button" value="Set Cookie" onclick="setJwtCookie();">
+            <label for="accessToken">accessToken:</label><br>
+            <input type="text" id="accessToken" name="accessToken"><br>
+            <label for="loyaltyData">loyaltyData:</label><br>
+            <input type="text" id="loyaltyData" name="loyaltyData"><br>
+            <input type="button" value="Set Cookie" onclick="setCookies();">
         </form>
     </body>
     <footer></footer>
