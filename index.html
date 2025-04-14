@@ -16,12 +16,12 @@
           function identityFn(callback) {
               console.log("identityFn execution");
               let decodedCookies = decodeURIComponent(document.cookie);
-              decodedCookies = decodedCookies.split(";");
+              decodedCookies = decodedCookies.split(",");
               console.log("decodedCookies pre-iter > " + decodedCookies);
               let vds_id = null;
 
               for (const cookie of decodedCookies) {
-                let name = cookie.split("=")[0];
+                let name = cookie.split("=")[0].trimStart();
                 let value = cookie.split("=")[1];
                 console.log("iterating cookie named " + name + " with value " + value);
                 if (name == "VDS_ID") {
