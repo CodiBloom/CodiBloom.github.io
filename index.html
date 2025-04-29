@@ -27,12 +27,10 @@
                 if (name == "VDS_ID") {
                   console.log("setting VDS_ID cookie with value " + value);
                   vds_id = value;
-                }
-
-                if (vds_id) {
                   break;
                 }
               }
+              
               callback({
                   iss: "https://www.royalcaribbean.com",
                   acr: "loa1",
