@@ -80,7 +80,7 @@
           const url = "rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token";
           const referrer = window.location.origin;
 
-          const response = await fetch(url, { method: "POST", headers: { referrer: referrer }, body: JSON.stringify({ loyaltyData: loyaltyData, accessToken: accessToken }) });
+          const response = await fetch(url, { method: "POST", headers: { referrer: "https://www.new.royalcaribbean.com" }, body: JSON.stringify({ loyaltyData: loyaltyData, accessToken: accessToken }) });
           const json = await response.json();
 
           return json.token;
