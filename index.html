@@ -78,11 +78,16 @@
         async function getJwt(loyaltyData, accessToken) {
           console.log("getJwt invoked");
           const url = "rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token";
-          const referrer = window.location.origin;
+          console.log("url init > " + url);
+          const referer = window.location.origin;
+          console.log("referer init > " + referer);)
 
           const response = await fetch(url, { method: "POST", headers: { Referer: "https://www.new.royalcaribbean.com", referrer: "https://www.new.royalcaribbean.com" }, body: JSON.stringify({ loyaltyData: loyaltyData, accessToken: accessToken }) });
+          console.log("response init > " + JSON.stringify(response));
           const json = await response.json();
+          console.log("json init > " + JSON.stringify(json));
 
+          console.log("returning json!");
           return json.token;
         }
        </script>
