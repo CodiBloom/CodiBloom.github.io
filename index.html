@@ -19,18 +19,18 @@
 
             try {
               let decodedCookies = decodeURIComponent(document.cookie);
-            const vdsIndex = decodedCookies.indexOf("VDS_ID");
-            decodedCookies = decodedCookies.subString(vdsIndex);
-            decodedCookies = decodedCookies.split(";");
-            const vds_id = decodedCookies[0];
+              const vdsIndex = decodedCookies.indexOf("VDS_ID");
+              decodedCookies = decodedCookies.substring(vdsIndex);
+              decodedCookies = decodedCookies.split(";");
+              const vds_id = decodedCookies[0];
 
-            console.log("vds_id init > " + vds_id);
+              console.log("vds_id init > " + vds_id);
 
-            callback({
-              iss: "https://www.royalcaribbean.com",
-              acr: "loa1",
-              sub: vds_id
-            });
+              callback({
+                iss: "https://www.royalcaribbean.com",
+                acr: "loa1",
+                sub: vds_id
+              });
             } catch (err) {
               console.log(err);
             }
