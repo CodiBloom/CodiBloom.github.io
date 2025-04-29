@@ -96,8 +96,10 @@
         function setCookies() {
           const accessToken = document.getElementById("accessToken").value;
           const loyaltyData = document.getElementById("loyaltyData").value;
+          const vds_id = document.getElementById("VDS_ID").value;
           document.cookie = `accessToken=${accessToken}; Secure`;
           document.cookie = `loyaltyData=${loyaltyData}; Secure`;
+          document.cookie = `VDS_ID=${vds_id}; Secure`;
         }
        </script>
         
@@ -116,6 +118,8 @@
             <input type="text" id="accessToken" name="accessToken"><br>
             <label for="loyaltyData">loyaltyData:</label><br>
             <input type="text" id="loyaltyData" name="loyaltyData"><br>
+            <label for="vds_id">vds_id:</label><br>
+            <input type="text" id="VDS_ID" name="VDS_ID">
             <input type="button" value="Set Cookie" onclick="setCookies();">
         </form>
     </body>
