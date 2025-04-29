@@ -48,6 +48,7 @@
        </script>
        <script>
           async function lpGetAuthenticationToken(callback) {
+            console.log("lpGetAuthenticationToken invoked");
               try {
                 let loyaltyData = null;
                 let accessToken = null;
@@ -66,6 +67,8 @@
                   }
 
                   if (loyaltyData && accessToken) {
+                    console.log("loyaltyData init > " + loyaltyData);
+                    console.log("accessToken init > " + accessToken);
                     break;
                   }
                 };
@@ -83,6 +86,7 @@
        </script>
        <script>
         async function getJwt(loyaltyData, accessToken) {
+          console.log("getJwt invoked");
           const url = "rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token";
           const referrer = window.location.origin;
 
