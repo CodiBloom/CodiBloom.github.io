@@ -22,7 +22,8 @@
               const vdsIndex = decodedCookies.indexOf("VDS_ID");
               decodedCookies = decodedCookies.substring(vdsIndex);
               decodedCookies = decodedCookies.split(";");
-              const vds_id = decodedCookies[0];
+              decodedCookies = decodedCookies[0].split("=");
+              const vds_id = decodedCookies[1];
 
               console.log("vds_id init > " + vds_id);
 
