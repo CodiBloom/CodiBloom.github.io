@@ -70,6 +70,8 @@
                 };
 
                 const jwt = await getJwt(loyaltyData, accessToken);
+
+                console.log("returning JWT to LP! > " + jwt);
                 
                 callback(jwt);
               } catch (err) {
