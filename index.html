@@ -56,10 +56,11 @@
           let loyaltyData = null;
           let accessToken = null;
           let decodedCookies = decodeURIComponent(document.cookie);
-          decodedCookies = decodedCookies.split(";");
+          decodedCookies = decodedCookies.split("; ");
 
           for (const cookie of decodedCookies) {
             console.log("in cookie for loop");
+
             let cArr = cookie.split("=");
             let name = cArr[0];
             let value = cArr[1];
