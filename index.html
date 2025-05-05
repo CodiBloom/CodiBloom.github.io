@@ -48,12 +48,15 @@
                 for (const cookie of decodedCookies) {
                   console.log("for iter over > " + cookie);
                   let cArr = cookie.split("=");
+                  console.log("cArr > " + cArr);
                   let name = cArr[0];
+                  console.log("name > " + name);
                   let value = cArr[1];
+                  console.log("value > " + value);
                   if (name == "loyaltyData") {
-                    console.log("loyaltyData IF >>> " + cArr);
-                    console.log("typeof cArr > " + typeof cArr);
+                    console.log("loyaltyData IF >>");
                     let loyaltyValue = cArr.shift();
+                    console.log("loyaltyValue post-shift > " + loyaltyValue);
                     loyaltyValue = loyaltyValue.join("=");
                     loyaltyData = loyaltyValue;
                   } else if (name == "accessToken") {
