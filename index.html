@@ -38,11 +38,29 @@
        </script>
        <script>
           async function lpGetAuthenticationToken(callback) {
-            console.log("lpGetAuthenticationToken invoked");
               try {
-                const jwt = await getJwt();
+                let loyaltyData = null;
+                let accessToken = null;
+                let decodedCookies = decodeURIComponent(document.cookie);
+                decodedCookies = decodedCookies.split("; ");
 
-                console.log("returning JWT to LP > " + JSON.stringify(jwt));
+                for (const cookie of decodedCookies) {
+                  let cArr = cookie.split("=");
+                  let name = cArr[0];
+                  let value = cArr[1];
+                  if (name == "loyaltyData") {
+                    let loyaltyValue = cArr.shift().join();
+                    loyaltyData = loyaltyValue;
+                  } else if (name == "accessToken") {
+                    accessToken = value;
+                  }
+
+                  if (loyaltyData && accessToken) {
+                   break;
+                  }
+                };
+
+                const jwt = await getJwt();
                 
                 callback(jwt);
               } catch (err) {
@@ -53,34 +71,6 @@
        </script>
        <script>
         async function getJwt() {
-          let loyaltyData = null;
-          let accessToken = null;
-          let decodedCookies = decodeURIComponent(document.cookie);
-          decodedCookies = decodedCookies.split("; ");
-
-          for (const cookie of decodedCookies) {
-            console.log("in cookie for loop");
-
-            let cArr = cookie.split("=");
-            let name = cArr[0];
-            let value = cArr[1];
-            if (name == "loyaltyData") {
-              let loyaltyValue = cArr.shift().join();
-              loyaltyData = loyaltyValue;
-              console.log("loyaltyData init > " + loyaltyData);
-            } else if (name == "accessToken") {
-              accessToken = value;
-              console.log("accessToken init > " + accessToken);
-            }
-
-            if (loyaltyData && accessToken) {
-              break;
-            }
-          };
-
-          console.log("in getJwt()");
-          console.log("loyaltyData > " + loyaltyData);
-          console.log("accessToken > " + accessToken);
           const request = new Request("http://localhost:3000/api/token", {
             method: "POST",
             headers: {
