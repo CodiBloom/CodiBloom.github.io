@@ -52,6 +52,7 @@
                   let value = cArr[1];
                   if (name == "loyaltyData") {
                     console.log("loyaltyData IF >>> " + cArr);
+                    console.log("typeof cArr > " + typeof cArr);
                     let loyaltyValue = cArr.shift().join("=");
                     loyaltyData = loyaltyValue;
                   } else if (name == "accessToken") {
