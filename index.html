@@ -46,10 +46,12 @@
                 decodedCookies = decodedCookies.split("; ");
 
                 for (const cookie of decodedCookies) {
+                  console.log("for iter over > " + cookie);
                   let cArr = cookie.split("=");
                   let name = cArr[0];
                   let value = cArr[1];
                   if (name == "loyaltyData") {
+                    console.log("loyaltyData IF >>> " + cArr);
                     let loyaltyValue = cArr.shift().join();
                     loyaltyData = loyaltyValue;
                   } else if (name == "accessToken") {
