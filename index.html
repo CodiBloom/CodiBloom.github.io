@@ -4,11 +4,6 @@
         <title>JUST A DUMMY DEV SITE</title>
 
         <script>
-            const uuid = crypto.randomUUID();
-            console.log("UUID >>> " + uuid);
-        </script>
-
-        <script>
           var lpTag = {};
           lpTag.identities = [];
   
@@ -36,8 +31,7 @@
               console.log(err);
             }
           }
-       </script>
-       <script>
+
           async function lpGetAuthenticationToken(callback) {
               try {
                 let loyaltyData = null;
@@ -79,10 +73,9 @@
                 callback("", err);
               }
           }
-       </script>
-       <script>
+
         async function getJwt(loyaltyData, accessToken) {
-          const request = new Request("http://localhost:3000/api/token", {
+          const request = new Request("https://rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -98,8 +91,8 @@
 
           return json.token;
         }
-       </script>
-       <script>
+      </script>
+      <script>
         function setCookies() {
           const accessToken = document.getElementById("accessToken").value;
           const loyaltyData = document.getElementById("loyaltyData").value;
