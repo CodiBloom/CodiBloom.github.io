@@ -32,65 +32,114 @@
             }
           }
 
-          async function lpGetAuthenticationToken(callback) {
-              try {
-                let loyaltyData = null;
-                let accessToken = null;
-                let decodedCookies = decodeURIComponent(document.cookie);
-                decodedCookies = decodedCookies.split("; ");
+          // function lpGetAuthenticationToken(callback) {
+          //   try {
+          //     let loyaltyData = null;
+          //     let accessToken = null;
+          //     let decodedCookies = decodeURIComponent(document.cookie);
+          //     decodedCookies = decodedCookies.split("; ");
 
-                for (const cookie of decodedCookies) {
-                  console.log("for iter over > " + cookie);
-                  let cArr = cookie.split("=");
-                  console.log("cArr > " + cArr);
-                  let name = cArr[0];
-                  console.log("name > " + name);
-                  let value = cArr[1];
-                  console.log("value > " + value);
-                  if (name == "loyaltyData") {
-                    console.log("loyaltyData IF >>");
-                    cArr.shift();
-                    let loyaltyValue = cArr.join("=");
-                    console.log("loyaltyValue post-shift > " + loyaltyValue);
-                    console.log("loyaltyValue typeof > " + typeof loyaltyValue);
-                    loyaltyData = loyaltyValue;
-                  } else if (name == "accessToken") {
-                    accessToken = value;
-                  }
+          //     for (const cookie of decodedCookies) {
+          //       console.log("for iter over > " + cookie);
+          //       let cArr = cookie.split("=");
+          //       console.log("cArr > " + cArr);
+          //       let name = cArr[0];
+          //       console.log("name > " + name);
+          //       let value = cArr[1];
+          //       console.log("value > " + value);
+          //       if (name == "loyaltyData") {
+          //         console.log("loyaltyData IF >>");
+          //         cArr.shift();
+          //         let loyaltyValue = cArr.join("=");
+          //         console.log("loyaltyValue post-shift > " + loyaltyValue);
+          //         console.log("loyaltyValue typeof > " + typeof loyaltyValue);
+          //         loyaltyData = loyaltyValue;
+          //       } else if (name == "accessToken") {
+          //         accessToken = value;
+          //       }
 
-                  if (loyaltyData && accessToken) {
-                   break;
-                  }
-                };
+          //       if (loyaltyData && accessToken) {
+          //        break;
+          //       }
+          //     };
 
-                const jwt = await getJwt(loyaltyData, accessToken);
-
-                console.log("returning JWT to LP! > " + jwt);
+          //     const jwt = getJwt(loyaltyData, accessToken);
+          //     console.log("returning JWT to LP! > " + jwt);
                 
-                callback(jwt);
-              } catch (err) {
-                console.log(err);
-                callback("", err);
-              }
+          //     callback(jwt);
+          //   } catch (err) {
+          //     console.log(err);
+          //     callback("", err);
+          //   }
+          // }
+
+          function lpGetAuthenticationToken (callback) {
+            try {
+
+              let loyaltyData = null;
+              let accessToken = null;
+              let decodedCookies = decodeURIComponent(document.cookie);
+              decodedCookies = decodedCookies.split("; ");
+
+              for (const cookie of decodedCookies) {
+                let cArr = cookie.split("=");
+                let name = cArr[0];
+                let value = cArr[1];
+                if (name == "loyaltyData") {
+                  cArr.shift();
+                  let loyaltyValue = cArr.join("=");
+                  loyaltyData = loyaltyValue;
+                } else if (name == "accessToken") {
+                  accessToken = value;
+                }
+
+                if (loyaltyData && accessToken) {
+                  break;
+                }
+              };
+
+              const request = new Request("https://www.new.royalcaribbean.com/api/token", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  loyaltyData: loyaltyData,
+                  accessToken: accessToken
+                })
+              });
+
+              let jwt = fetch(request).then(response => {
+                if (!response.ok) {
+                  throw Error(response.status);
+                }
+                return response.json();
+              }).catch(error => console.log("Problem with LP fetch op: ", error));
+
+              callback(jwt);
+            } catch (err) {
+              console.log(err);
+              callback("", err);
+            }
           }
 
-        async function getJwt(loyaltyData, accessToken) {
-          const request = new Request("https://rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "referrer": "https://www.new.royalcaribbean.com"
-            },
-            body: JSON.stringify({
-              loyaltyData: loyaltyData,
-              accessToken: accessToken
-            })
-          });
-          const response = await fetch(request);
-          const json = await response.json();
+        // function getJwt(loyaltyData, accessToken) {
+        //   const request = new Request("https://rcg-liveperson-auth-middleware.tst1.dev.ecom.rccl.io/api/token", {
+        //     method: "POST",
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //       "referrer": "https://www.new.royalcaribbean.com"
+        //     },
+        //     body: JSON.stringify({
+        //       loyaltyData: loyaltyData,
+        //       accessToken: accessToken
+        //     })
+        //   });
+        //   const response = await fetch(request);
+        //   const json = await response.json();
 
-          return json.token;
-        }
+        //   return json.token;
+        // }
       </script>
       <script>
         function setCookies() {
